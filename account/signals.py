@@ -7,6 +7,6 @@ User = get_user_model()
 
 @receiver(post_save, sender=User)
 def user_post_save(sender, instance, created, *args, **kwargs):
-    if created:
+    if created and not instance.is_superuser:
         instance.is_active = False
         instance.save()

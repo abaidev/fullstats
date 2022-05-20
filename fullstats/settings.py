@@ -31,7 +31,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG")
 
-ALLOWED_HOSTS = [] if DEBUG else env.list("ALLOWED_HOSTS")
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"] if DEBUG else env.list("ALLOWED_HOSTS")
 
 
 # Application definition
