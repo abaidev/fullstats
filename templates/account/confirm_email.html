@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Fullstats confirmations</title>
+</head>
+<body>
+{% autoescape off %}
+Здравствуйте {{ user.username }}, приветствуем вас на платформе <strong>FullStats</strong>
+Пожалуйста пройдите по ссылке для потдверждения регистрации,
+http://{{domain}}{% url 'account-api:activate' uidb64=uidb64 token=token %}
+{% endautoescape %}
+</body>
+</html>
