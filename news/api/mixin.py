@@ -11,19 +11,19 @@ class RatesMixin:
     def uprate(self, request, slug, pk=None):
         obj = self.get_object()
         services.uprate(obj, request.user)
-        return Response({"yess": "good"})
+        return Response({"status": "uprated"})
 
     @action(methods=['POST'], detail=True, permission_classes=[IsAuthenticated])
     def downrate(self, request, slug, pk=None):
         obj = self.get_object()
         services.downrate(obj, request.user)
-        return Response()
+        return Response({"status": "downrated"})
 
     @action(methods=['POST'], detail=True, permission_classes=[IsAuthenticated])
     def remove_rate(self, request, slug, pk=None):
         obj = self.get_object()
         services.remove_rate(obj, request.user)
-        return Response()
+        return Response({"status": "rate removed"})
 
     @action(methods=['GET'], detail=True, permission_classes=[IsAuthenticatedOrReadOnly])
     def has_user_rate(self, request, slug, pk=None):
@@ -38,3 +38,23 @@ class RatesMixin:
         serializer = UserBaseSerializer(instance=fans, many=True)
         return Response(serializer.data)
 
+
+class FavoriteMixin:
+    @action(methods=['POST'], detail=True, permission_classes=[IsAuthenticated])
+    def add_to_favorite(self, request, slug, pk=None):
+        obj = self.get_object()
+        services.add_to_favorite(obj, request.user)
+        return Response({'status': 'Article added to favorites'})
+
+    @action(methods=['POST', 'DELETE'], detail=True, permission_classes=[IsAuthenticated])
+    def remove_from_favorite(self, request, slug, pk=None):
+        obj = self.get_object()
+        services.remove_from_favorite(obj, request.user)
+        return Response({'status': 'Article removed from favorites'})
+
+    # @action(methods=['GET'], detail=True, permission_classes=[IsAuthenticated])
+    # def get_favorite_articles(self, request, pk=None):
+    #     obj = self.get_object()
+    #     res = services.get_favorite_articles(obj, request.user)
+    #     serializer = UserBaseSerializer(instance=res, many=True)
+    #     return Response(serializer.data)

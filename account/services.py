@@ -49,3 +49,30 @@ def get_users(obj):
     obj_type = ContentType.objects.get_for_model(obj)
     return User.objects.filter(
         rates__content_type=obj_type, rates__object_id=obj.id)
+
+
+'''   Favorites   '''
+
+
+def get_favorite_articles(obj, user):
+    """     Queuing user's favorite articles     """
+    obj_type = ContentType.objects.get_for_model(obj)
+    uf_qs = UserFavorite.objects.filter(
+        content_type=obj_type, user=user)
+    return [article.content_object for article in uf_qs]
+
+
+def add_to_favorite(obj, user):
+    """    Add `obj` to favorite    """
+    obj_type = ContentType.objects.get_for_model(obj)
+    fav, is_created = UserFavorite.objects.get_or_create(
+        content_type=obj_type, object_id=obj.id, user=user)
+    return fav
+
+
+def remove_from_favorite(obj, user):
+    """    Removing `obj` from user`s favorites.    """
+    obj_type = ContentType.objects.get_for_model(obj)
+    UserFavorite.objects.filter(
+        content_type=obj_type, object_id=obj.id, user=user
+    ).delete()

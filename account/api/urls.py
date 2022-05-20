@@ -8,4 +8,5 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('activate/<uidb64>/<token>/', views.activate_user, name='activate'),
     path('auth-token/', obtain_jwt_token, name='auth-token'),
+    path('favorite-articles/', views.get_user_fav_articles, name='favs-articles'),
 ]
