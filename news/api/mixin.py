@@ -51,10 +51,3 @@ class FavoriteMixin:
         obj = self.get_object()
         services.remove_from_favorite(obj, request.user)
         return Response({'status': 'Article removed from favorites'})
-
-    # @action(methods=['GET'], detail=True, permission_classes=[IsAuthenticated])
-    # def get_favorite_articles(self, request, pk=None):
-    #     obj = self.get_object()
-    #     res = services.get_favorite_articles(obj, request.user)
-    #     serializer = UserBaseSerializer(instance=res, many=True)
-    #     return Response(serializer.data)
