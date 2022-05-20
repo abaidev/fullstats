@@ -12,6 +12,7 @@ def uprate(obj, user):
     rate, is_created = UserRate.objects.get_or_create(
         content_type=obj_type, object_id=obj.id, user=user)
     rate.rate = 1
+    rate.save()
     return rate
 
 
@@ -21,6 +22,7 @@ def downrate(obj, user):
     rate, is_created = UserRate.objects.get_or_create(
         content_type=obj_type, object_id=obj.id, user=user)
     rate.rate = -1
+    rate.save()
     return rate
 
 

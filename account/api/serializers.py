@@ -31,3 +31,9 @@ class UserSignupSerializer(serializers.ModelSerializer):
         elif user_qs.count() > 0:
             raise ValidationError("Such user already exists")
         return data
+
+
+class UserBaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name']
