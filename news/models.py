@@ -15,6 +15,7 @@ class Article(models.Model):
     content = models.TextField()
     views_num = models.IntegerField(default=0)
     rating = GenericRelation(UserRate)
+    date = models.DateField(auto_now_add=True)
     # favorites_m2m = models.ManyToManyField(User, related_name='favorites', blank=True, default=None)
 
     def save(self,  *args, **kwargs):
