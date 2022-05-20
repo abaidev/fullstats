@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
+from pytils.translit import slugify
 from account.models import UserRate
 
 User = get_user_model()
@@ -15,11 +17,17 @@ class Article(models.Model):
     rating = GenericRelation(UserRate)
     # favorites_m2m = models.ManyToManyField(User, related_name='favorites', blank=True, default=None)
 
+    def save(self,  *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Article, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
     @property
     def total_rating(self):
-        return self.rating.count() # todo: change to count self.rating values
+        # qs = Article.objects.prefetch_related('rating') ...
+        rate_sum_dict = self.rating.all().aggregate(Sum('rate'))
+        return rate_sum_dict['rate__sum'] or 0
 
 
