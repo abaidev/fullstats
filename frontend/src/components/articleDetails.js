@@ -14,10 +14,10 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import store from '../store/store';
 
 
@@ -96,7 +96,7 @@ const ArticleDetails = observer(() => {
                         <ShareIcon />
                     </IconButton>
                     <IconButton aria-label="rating">
-                        <UpgradeIcon />
+                        <BarChartIcon />
                         <span>&nbsp;{article.rating}</span>
                     </IconButton>
                     <IconButton aria-label="views">

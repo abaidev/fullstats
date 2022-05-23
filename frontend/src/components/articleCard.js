@@ -17,7 +17,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
@@ -36,9 +36,36 @@ const ExpandMore = styled((props) => {
 
 const ArticleCard = observer(({ article }) => {
     const [expanded, setExpanded] = React.useState(false);
+    const [userRate, setUserRate] = React.useState(0);
     
     const isArticleInFavs = store.isInFavorites(article);
     const isInFavColor = isArticleInFavs ? "error" : "action";
+    const hasUpRate = userRate > 0 ? "info" : "action";
+    const hasDownRate = userRate < 0 ? "info" : "action";
+
+    React.useEffect(() => {
+        async function fetchData() {
+            let res = await store.hasUserRate(article.slug);
+            setUserRate(res);
+        }
+        fetchData();
+    });
+
+    const downrateArticle = () => {
+        if (userRate >= 0) {
+            store.downrateArticle(article.slug);
+        } else{
+            store.removeRateArticle(article.slug);
+        }
+    }
+
+    const uprateArticle = () => {
+        if (userRate <= 0){
+            store.uprateArticle(article.slug);
+        }else{
+            store.removeRateArticle(article.slug);
+        }
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -87,7 +114,7 @@ const ArticleCard = observer(({ article }) => {
                     <ShareIcon />
                 </IconButton>
                 <IconButton aria-label="rating">
-                    <UpgradeIcon />
+                    <BarChartIcon />
                     <span>&nbsp;{article.rating}</span>
                 </IconButton>
                 <IconButton aria-label="views">
@@ -97,11 +124,11 @@ const ArticleCard = observer(({ article }) => {
                 {
                     store.user.token ?
                         <>
-                            <IconButton aria-label="uprate">
-                                <ThumbUpOutlinedIcon />
+                            <IconButton aria-label="uprate" onClick={uprateArticle}>
+                                <ThumbUpOutlinedIcon color={hasUpRate}/>
                             </IconButton>
-                            <IconButton aria-label="downrate">
-                                <ThumbDownOutlinedIcon />
+                            <IconButton aria-label="downrate" onClick={downrateArticle}>
+                                <ThumbDownOutlinedIcon color={hasDownRate}/>
                             </IconButton>
                             <IconButton aria-label="add to favorites" onClick={handleFavorite}>
                                 <FavoriteIcon color={isInFavColor}/>
