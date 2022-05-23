@@ -48,5 +48,5 @@ def activate_user(request, uidb64, token):
 @permission_classes(permission_classes=[IsAuthenticated])
 def get_user_fav_articles(request):
     favs = get_favorite_articles(obj=Article, user=request.user)
-    serializer = ArticleSerializer(instance=favs, many=True)
+    serializer = ArticleSerializer(instance=favs, many=True, context={"request": request})
     return Response(serializer.data)

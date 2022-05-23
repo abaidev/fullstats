@@ -4,7 +4,10 @@ import { csrftoken } from "./csrf_token";
 const API = process.env.REACT_APP_API;
 
 class Store {
-    user = {}
+    user = {
+        favorites: [],
+        token: "",
+    }
     articles = []
 
     constructor() {
@@ -39,26 +42,64 @@ class Store {
     }
 
     logout() {
-        this.user = {};
+        this.user = {favorites: [], token: ""};
         localStorage.setItem("user", JSON.stringify(this.user));
     }
 
+    addToFavorites(articleSlug){
+        fetch(`${API}/news/articles/${articleSlug}/add_to_favorite/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        }).then(res => res.json())
+            .then(data => {
+                runInAction(() => {
+                    this.getUserFavorites();
+                })
+            });
+    }
+
+    removeFromFavorites(articleSlug){
+        fetch(`${API}/news/articles/${articleSlug}/remove_from_favorite/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        }).then(res => res.json())
+            .then(data => {
+                runInAction(() => {
+                    this.getUserFavorites();
+                })
+            });
+    }
+
     getUserFavorites() {
-        fetch(`${API}/account/details/`, {
+        fetch(`${API}/account/favorite-articles/`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json; charset=utf8",
                 'Accept': 'application/json',
                 'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
             },
-            // mode: 'same-origin',
         }).then(res => res.json())
             .then(data => {
                 runInAction(() => {
-                    this.user = { ...this.user, ...data }
+                    this.user["favorites"] = data
                     localStorage.setItem("user", JSON.stringify(this.user));
                 })
             });
+    }
+
+    isInFavorites(article){
+        return this.user.favorites.some((element, index, array)=>{return element.id === article.id})
     }
 
     async getArticles() {
@@ -82,11 +123,6 @@ class Store {
         return rStatus;
     }
 
-    
-
-    async addArticleToFav() {
-
-    }
 
     async rateArticle(rate){
 

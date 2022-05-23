@@ -26,16 +26,18 @@ import store from '../store/store';
 const ArticleDetails = observer(() => {
     const { slug } = useParams();
     const article = store.articles.find(item => item.slug == slug)
-    const onCommentFormSubmit = (e) => {
+    const isArticleInFavs = store.isInFavorites(article);
+    const isInFavColor = isArticleInFavs ? "error" : "action";
+
+    const handleFavorite = (e) => {
         e.preventDefault();
-        let dataDict = {
-            content: e.target.message.value,
-            timestamp: new Date().toISOString(),
-            article_slug: slug,
+        if (isArticleInFavs){
+            store.removeFromFavorites(article.slug);;
+        }else{
+            store.addToFavorites(article.slug)
         }
-        // store.makeComment(dataDict);
-        e.target.reset();
     }
+
 
     return (
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 2, }}>
@@ -83,19 +85,14 @@ const ArticleDetails = observer(() => {
                             <IconButton aria-label="downrate">
                                 <ThumbDownOutlinedIcon />
                             </IconButton>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
+                            <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+                                <FavoriteIcon color={isInFavColor}/>
                             </IconButton> 
                         </> : null
                     }
                 </CardActions>
             </Card>
-
         </Grid>
-
-
-
-
 
     );
 });

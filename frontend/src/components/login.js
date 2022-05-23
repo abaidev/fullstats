@@ -10,14 +10,13 @@ const LoginForm = () => {
 
     const onFormSubmit = async (event) => {
         event.preventDefault();
-        // console.log(event);
         let username = event.target.username.value;
         let password = event.target.password.value;
 
         let credentials = {username, password}
         let status = await store.authenticate(credentials);
         if (status) {
-            // store.getUserData(formData);
+            store.getUserFavorites();
             navigate("/")
         } else {
             setShowModal(true);
