@@ -7,3 +7,6 @@ __pycache__/
 .idea/
 conf/
 *.env
+frontend/build/
+node_modules/
+package-lock.json
