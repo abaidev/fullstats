@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,7 +10,6 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -25,16 +23,45 @@ import store from '../store/store';
 
 const ArticleDetails = observer(() => {
     const { slug } = useParams();
+    const [userRate, setUserRate] = useState(0);
+
     const article = store.articles.find(item => item.slug == slug)
     const isArticleInFavs = store.isInFavorites(article);
     const isInFavColor = isArticleInFavs ? "error" : "action";
 
+    const hasUpRate = userRate > 0 ? "info" : "action";
+    const hasDownRate = userRate < 0 ? "info" : "action";
+
+    useEffect(() => {
+        async function fetchData() {
+            let res = await store.hasUserRate(article.slug);
+            setUserRate(res);
+        }
+        fetchData();
+    });
+
     const handleFavorite = (e) => {
         e.preventDefault();
-        if (isArticleInFavs){
+        if (isArticleInFavs) {
             store.removeFromFavorites(article.slug);;
-        }else{
+        } else {
             store.addToFavorites(article.slug)
+        }
+    }
+
+    const downrateArticle = () => {
+        if (userRate >= 0) {
+            store.downrateArticle(article.slug);
+        } else{
+            store.removeRateArticle(article.slug);
+        }
+    }
+
+    const uprateArticle = () => {
+        if (userRate <= 0){
+            store.uprateArticle(article.slug);
+        }else{
+            store.removeRateArticle(article.slug);
         }
     }
 
@@ -78,17 +105,17 @@ const ArticleDetails = observer(() => {
                     </IconButton>
                     {
                         store.user.token ?
-                        <>
-                            <IconButton aria-label="uprate">
-                                <ThumbUpOutlinedIcon />
-                            </IconButton>
-                            <IconButton aria-label="downrate">
-                                <ThumbDownOutlinedIcon />
-                            </IconButton>
-                            <IconButton aria-label="add to favorites" onClick={handleFavorite}>
-                                <FavoriteIcon color={isInFavColor}/>
-                            </IconButton> 
-                        </> : null
+                            <>
+                                <IconButton aria-label="uprate" onClick={uprateArticle}>
+                                    <ThumbUpOutlinedIcon color={hasUpRate} />
+                                </IconButton>
+                                <IconButton aria-label="downrate" onClick={downrateArticle}>
+                                    <ThumbDownOutlinedIcon color={hasDownRate} />
+                                </IconButton>
+                                <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+                                    <FavoriteIcon color={isInFavColor} />
+                                </IconButton>
+                            </> : null
                     }
                 </CardActions>
             </Card>

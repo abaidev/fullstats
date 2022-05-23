@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -33,12 +34,23 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function ArticleCard({ article }) {
+const ArticleCard = observer(({ article }) => {
     const [expanded, setExpanded] = React.useState(false);
+    
+    const isArticleInFavs = store.isInFavorites(article);
+    const isInFavColor = isArticleInFavs ? "error" : "action";
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    const handleFavorite = (e) => {
+        e.preventDefault();
+        if (isArticleInFavs){
+            store.removeFromFavorites(article.slug);;
+        }else{
+            store.addToFavorites(article.slug)
+        }
+    }
 
     return (
         <Card sx={{ maxWidth: "100%" }}>
@@ -91,8 +103,8 @@ export default function ArticleCard({ article }) {
                             <IconButton aria-label="downrate">
                                 <ThumbDownOutlinedIcon />
                             </IconButton>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
+                            <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+                                <FavoriteIcon color={isInFavColor}/>
                             </IconButton>
                         </> : null
                 }
@@ -114,4 +126,6 @@ export default function ArticleCard({ article }) {
             </Collapse>
         </Card>
     );
-}
+});
+
+export default ArticleCard;

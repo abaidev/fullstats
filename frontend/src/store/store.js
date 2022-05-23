@@ -124,8 +124,72 @@ class Store {
     }
 
 
-    async rateArticle(rate){
+    uprateArticle(articleSlug) {
+        fetch(`${API}/news/articles/${articleSlug}/uprate/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        }).then(res => res.json())
+            .then(data => {
+                runInAction(() => {
+                    this.getArticles();
+                    this.getUserFavorites();
+                })
+            });
+    }
 
+    downrateArticle(articleSlug) {
+        fetch(`${API}/news/articles/${articleSlug}/downrate/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        }).then(res => res.json())
+            .then(data => {
+                runInAction(() => {
+                    this.getArticles();
+                    this.getUserFavorites();
+                })
+            });
+    }
+
+    removeRateArticle(articleSlug) {
+        fetch(`${API}/news/articles/${articleSlug}/remove_rate/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        }).then(res => res.json())
+            .then(data => {
+                runInAction(() => {
+                    this.getArticles();
+                    this.getUserFavorites();
+                })
+            });
+    }
+
+    async hasUserRate(articleSlug) {
+        let rStatus = false;
+        await fetch(`${API}/news/articles/${articleSlug}/has_user_rate/`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        }).then(res=>res.json()).then(stat=>rStatus=stat);
+        return rStatus;
     }
 
 }

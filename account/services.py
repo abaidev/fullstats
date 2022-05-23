@@ -41,7 +41,7 @@ def has_user_rate(obj, user) -> bool:
     obj_type = ContentType.objects.get_for_model(obj)
     rate = UserRate.objects.filter(
         content_type=obj_type, object_id=obj.id, user=user)
-    return rate.exists()
+    return rate.first().rate if rate.exists() else 0
 
 
 def get_users(obj):
