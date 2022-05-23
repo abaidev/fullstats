@@ -192,6 +192,21 @@ class Store {
         return rStatus;
     }
 
+    increaseViewNum(articleSlug){
+        fetch(`${API}/news/articles/${articleSlug}/increase_view_num/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+        }).then(res=>res.json()).then(data=>{
+            runInAction(() => {
+                this.getArticles();
+                this.getUserFavorites();
+            });
+        });
+    }
 }
 
 const store = new Store();

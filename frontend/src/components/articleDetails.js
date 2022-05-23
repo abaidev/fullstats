@@ -40,6 +40,10 @@ const ArticleDetails = observer(() => {
         fetchData();
     });
 
+    useEffect(()=>{
+        store.increaseViewNum(article.slug);
+    }, [])
+
     const handleFavorite = (e) => {
         e.preventDefault();
         if (isArticleInFavs) {

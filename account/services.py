@@ -76,3 +76,13 @@ def remove_from_favorite(obj, user):
     UserFavorite.objects.filter(
         content_type=obj_type, object_id=obj.id, user=user
     ).delete()
+
+
+'''   Articles   '''
+
+
+def increase_view_num(obj):
+    """    Increasing view_num by 1 `user`.    """
+    obj.views_num += 1
+    obj.save()
+    return obj

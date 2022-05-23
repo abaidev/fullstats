@@ -1,6 +1,6 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 
 from account import services
 from account.api.serializers import UserBaseSerializer
@@ -51,3 +51,11 @@ class FavoriteMixin:
         obj = self.get_object()
         services.remove_from_favorite(obj, request.user)
         return Response({'status': 'Article removed from favorites'})
+
+
+class ArticleMixin:
+    @action(methods=['POST', 'PATCH'], detail=True, permission_classes=[AllowAny])
+    def increase_view_num(self, request, slug, pk=None):
+        obj = self.get_object()
+        services.increase_view_num(obj)
+        return Response({'status': 'Article view increased by 1'})
