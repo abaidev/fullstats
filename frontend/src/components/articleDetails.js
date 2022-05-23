@@ -55,17 +55,14 @@ const ArticleDetails = observer(() => {
                     subheader={new Date(article.date).toDateString()}
                 />
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <div variant="body2" color="text.secondary">
                         <div dangerouslySetInnerHTML={{ __html: article.content }}></div>
                         <Link to={`/`} style={{ textDecoration: 'none' }}>
                             <Button variant="outlined" size="small">Go Home</Button>
                         </Link>
-                    </Typography>
+                    </div>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
                     <IconButton aria-label="share">
                         <ShareIcon />
                     </IconButton>
@@ -77,12 +74,20 @@ const ArticleDetails = observer(() => {
                         <RemoveRedEyeOutlinedIcon />
                         <span>&nbsp;{article.views_num}</span>
                     </IconButton>
-                    <IconButton aria-label="uprate">
-                        <ThumbUpOutlinedIcon />
-                    </IconButton>
-                    <IconButton aria-label="downrate">
-                        <ThumbDownOutlinedIcon />
-                    </IconButton>
+                    {
+                        store.user.token ?
+                        <>
+                            <IconButton aria-label="uprate">
+                                <ThumbUpOutlinedIcon />
+                            </IconButton>
+                            <IconButton aria-label="downrate">
+                                <ThumbDownOutlinedIcon />
+                            </IconButton>
+                            <IconButton aria-label="add to favorites">
+                                <FavoriteIcon />
+                            </IconButton> 
+                        </> : null
+                    }
                 </CardActions>
             </Card>
 

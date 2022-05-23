@@ -20,6 +20,7 @@ import UpgradeIcon from '@mui/icons-material/Upgrade';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import store from '../store/store';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -62,17 +63,14 @@ export default function ArticleCard({ article }) {
                 alt="Paella dish"
             /> */}
             <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    <div dangerouslySetInnerHTML={{ __html: article.content.slice(0, 200) }} style={{marginBottom: 5}}></div>
-                    <Link to={`/articles/${article.slug}`} className="mb-3 img-wrap" style={{ textDecoration: 'none' }}>
+                <div variant="body2" color="text.secondary">
+                    <div dangerouslySetInnerHTML={{ __html: article.content.slice(0, 200) }} style={{ marginBottom: 5 }}></div>
+                    <Link to={`/articles/${article.slug}`} style={{ textDecoration: 'none' }}>
                         <Button variant="outlined" size="small">View Article</Button>
                     </Link>
-                </Typography>
+                </div>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
                 </IconButton>
@@ -84,12 +82,20 @@ export default function ArticleCard({ article }) {
                     <RemoveRedEyeOutlinedIcon />
                     <span>&nbsp;{article.views_num}</span>
                 </IconButton>
-                <IconButton aria-label="uprate">
-                    <ThumbUpOutlinedIcon />
-                </IconButton>
-                <IconButton aria-label="downrate">
-                    <ThumbDownOutlinedIcon />
-                </IconButton>
+                {
+                    store.user.token ?
+                        <>
+                            <IconButton aria-label="uprate">
+                                <ThumbUpOutlinedIcon />
+                            </IconButton>
+                            <IconButton aria-label="downrate">
+                                <ThumbDownOutlinedIcon />
+                            </IconButton>
+                            <IconButton aria-label="add to favorites">
+                                <FavoriteIcon />
+                            </IconButton>
+                        </> : null
+                }
 
 
                 <ExpandMore

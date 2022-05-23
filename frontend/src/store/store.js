@@ -32,6 +32,7 @@ class Store {
         }).then(res => res.json())
             .then(data => {
                 this.user["token"] = data.token
+                localStorage.setItem("user", JSON.stringify(this.user));
                 authStatus = this.user["token"] ? true : false;
             });
         return authStatus;
