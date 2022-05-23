@@ -5,6 +5,7 @@ from news.models import Article
 class ArticleSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
+    article_url = serializers.HyperlinkedIdentityField(lookup_field='slug', view_name='article-detail')
 
     class Meta:
         model = Article
