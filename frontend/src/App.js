@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import store from './store/store';
 
 import Home from './components/home';
+import ArticleDetails from './components/articleDetails';
 import NotFound from './components/404';
 
 
@@ -48,6 +49,7 @@ function App() {
         <Routes>
 
           <Route exact path="/" element={<Home />} />
+          <Route path="/articles/:slug" element={<ArticleDetails />} />
           <Route path="*" element={<NotFound />} />
 
         </Routes>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -7,6 +8,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
@@ -15,9 +17,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
-import GradingIcon from '@mui/icons-material/Grading';
-import GradeIcon from '@mui/icons-material/Grade';
-import StarsIcon from '@mui/icons-material/Stars';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
@@ -33,7 +32,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function ArticleCard({article}) {
+export default function ArticleCard({ article }) {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -64,7 +63,10 @@ export default function ArticleCard({article}) {
             /> */}
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                    {article.content.slice(0,200)}
+                    <div dangerouslySetInnerHTML={{ __html: article.content.slice(0, 200) }} style={{marginBottom: 5}}></div>
+                    <Link to={`/articles/${article.slug}`} className="mb-3 img-wrap" style={{ textDecoration: 'none' }}>
+                        <Button variant="outlined" size="small">View Article</Button>
+                    </Link>
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -80,7 +82,7 @@ export default function ArticleCard({article}) {
                 </IconButton>
                 <IconButton aria-label="views">
                     <RemoveRedEyeOutlinedIcon />
-                    <span>&nbsp;{article.views || 0}</span>
+                    <span>&nbsp;{article.views_num}</span>
                 </IconButton>
                 <IconButton aria-label="uprate">
                     <ThumbUpOutlinedIcon />
@@ -88,8 +90,8 @@ export default function ArticleCard({article}) {
                 <IconButton aria-label="downrate">
                     <ThumbDownOutlinedIcon />
                 </IconButton>
-                
-                
+
+
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
