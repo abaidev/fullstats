@@ -92,14 +92,17 @@ class Store {
         }).then(res => res.json())
             .then(data => {
                 runInAction(() => {
-                    this.user["favorites"] = data
+                    this.user["favorites"] = data.constructor === Array ? data : []
                     localStorage.setItem("user", JSON.stringify(this.user));
                 })
             });
     }
 
     isInFavorites(article){
-        return this.user.favorites.some((element, index, array)=>{return element.id === article.id})
+        if ("favorites" in this.user) {
+            return this.user.favorites.some(element=> element.id === article.id)
+        }
+        return false;
     }
 
     async getArticles() {
@@ -178,17 +181,23 @@ class Store {
             });
     }
 
+    sortArticleBy(attr){
+        this.articles.sort((a, b) => a[attr] - b[attr]);
+    }
+
     async hasUserRate(articleSlug) {
         let rStatus = false;
-        await fetch(`${API}/news/articles/${articleSlug}/has_user_rate/`, {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/json; charset=utf8",
-                'Accept': 'application/json',
-                'X-CSRFToken': csrftoken,
-                'Authorization': 'JWT ' + this.user.token,
-            },
-        }).then(res=>res.json()).then(stat=>rStatus=stat);
+        if ("token" in this.user){
+            await fetch(`${API}/news/articles/${articleSlug}/has_user_rate/`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json; charset=utf8",
+                    'Accept': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                    'Authorization': 'JWT ' + this.user.token,
+                },
+            }).then(res=>res.json()).then(stat=>rStatus=stat);
+        }
         return rStatus;
     }
 
@@ -203,7 +212,6 @@ class Store {
         }).then(res=>res.json()).then(data=>{
             runInAction(() => {
                 this.getArticles();
-                this.getUserFavorites();
             });
         });
     }

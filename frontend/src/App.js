@@ -8,6 +8,7 @@ import store from './store/store';
 import Home from './components/home';
 import LoginForm from './components/login';
 import ArticleDetails from './components/articleDetails';
+import Sidebar from './components/sidebar';
 import NotFound from './components/404';
 
 
@@ -46,6 +47,7 @@ function App() {
   const AppRoute = () => {
     return (
       <Router>
+        <Sidebar/>
 
         <Routes>
 
