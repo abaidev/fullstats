@@ -1,6 +1,6 @@
 import GIF from './assets/images/onload.gif';
 import './assets/css/docs.css';
-import './assets/css/bootstrap-5.min.css';
+import './assets/css/bootstrap.min.css';
 
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -9,6 +9,7 @@ import store from './store/store';
 
 import Home from './components/home';
 import SignupForm from './components/signup';
+import AccountActivated from './components/accountActivated';
 import LoginForm from './components/login';
 import ArticleDetails from './components/articleDetails';
 import Navbar from './components/navbar';
@@ -58,7 +59,7 @@ function App() {
 
           <Route exact path="/" element={<Home />} />
           <Route path="/signup" element={<SignupForm />} />
-          {/* <Route path="/activated" element={<AccountActivated />} /> */}
+          <Route path="/activated" element={<AccountActivated />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/articles/:slug" element={<ArticleDetails />} />
           <Route path="*" element={<NotFound />} />

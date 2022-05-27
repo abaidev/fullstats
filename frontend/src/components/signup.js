@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Input, Button, Card, Grid } from '@mui/material';
+import { Box, Input, Button, Card } from '@mui/material';
 import { csrftoken } from '../store/csrf_token';
 
 const API = process.env.REACT_APP_API;
@@ -27,12 +27,11 @@ const SignupForm = () => {
             },
         })
         if (res.ok) {
-            let json = await res.json();
             form.reset();
-            setModalMsg("Вы зарегестрированы, пройдите активацию в почте");
+            setModalMsg("Your account is been processed. Please check your email for confirmation.");
             setShowModal(true);
         } else {
-            setModalMsg("Ошибка заполнения или Пользователь с такими данными уже имеется");
+            setModalMsg("Sorry, you got filling errors or User with such data already exists.");
             setShowModal(true);
         }
     };
@@ -79,7 +78,7 @@ const Modal = ({ showModal, modalClose, message }) => {
             <div className="modal-dialog" role="document" style={{ maxWidth: "100%", height: "100%", margin: 0 }}>
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title text-info"><strong>Регистрация</strong></h5>
+                        <h5 className="modal-title text-info"><strong>Registration</strong></h5>
                         <button type="button" className="close" aria-label="Close" onClick={onClose}>
                             <span aria-hidden="true">&times;</span>
                         </button>

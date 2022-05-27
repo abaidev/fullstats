@@ -40,8 +40,8 @@ def activate_user(request, uidb64, token):
         user.is_active = True
         user.last_login = timezone.now()  # resetting token
         user.save()
-        return HttpResponse("<h2>Activated</h2>")
-    return HttpResponse("<h2>NOT Activated</h2>")
+        return redirect("/activated")
+    return redirect("/not-activated")  # frontend's 404 will handle
 
 
 @api_view(http_method_names=['GET'])
