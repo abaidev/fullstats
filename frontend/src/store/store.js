@@ -34,19 +34,22 @@ class Store {
             // mode: 'same-origin',
         }).then(res => res.json())
             .then(data => {
-                this.user["token"] = data.token
-                localStorage.setItem("user", JSON.stringify(this.user));
-                authStatus = this.user["token"] ? true : false;
+                runInAction(() => {
+                    this.user["token"] = data.token
+                    localStorage.setItem("user", JSON.stringify(this.user));
+                    authStatus = this.user["token"] ? true : false;
+                })
+
             });
         return authStatus;
     }
 
     logout() {
-        this.user = {favorites: [], token: ""};
+        this.user = { favorites: [], token: "" };
         localStorage.setItem("user", JSON.stringify(this.user));
     }
 
-    addToFavorites(articleSlug){
+    addToFavorites(articleSlug) {
         fetch(`${API}/news/articles/${articleSlug}/add_to_favorite/`, {
             method: 'POST',
             headers: {
@@ -63,7 +66,7 @@ class Store {
             });
     }
 
-    removeFromFavorites(articleSlug){
+    removeFromFavorites(articleSlug) {
         fetch(`${API}/news/articles/${articleSlug}/remove_from_favorite/`, {
             method: 'POST',
             headers: {
@@ -98,9 +101,9 @@ class Store {
             });
     }
 
-    isInFavorites(article){
+    isInFavorites(article) {
         if ("favorites" in this.user) {
-            return this.user.favorites.some(element=> element.id === article.id)
+            return this.user.favorites.some(element => element.id === article.id)
         }
         return false;
     }
@@ -181,13 +184,13 @@ class Store {
             });
     }
 
-    sortArticleBy(attr){
+    sortArticleBy(attr) {
         this.articles.sort((a, b) => a[attr] - b[attr]);
     }
 
     async hasUserRate(articleSlug) {
         let rStatus = false;
-        if ("token" in this.user){
+        if (this.user.token) {
             await fetch(`${API}/news/articles/${articleSlug}/has_user_rate/`, {
                 method: 'GET',
                 headers: {
@@ -196,12 +199,12 @@ class Store {
                     'X-CSRFToken': csrftoken,
                     'Authorization': 'JWT ' + this.user.token,
                 },
-            }).then(res=>res.json()).then(stat=>rStatus=stat);
+            }).then(res => res.json()).then(stat => rStatus = stat);
         }
         return rStatus;
     }
 
-    increaseViewNum(articleSlug){
+    increaseViewNum(articleSlug) {
         fetch(`${API}/news/articles/${articleSlug}/increase_view_num/`, {
             method: 'POST',
             headers: {
@@ -209,7 +212,7 @@ class Store {
                 'Accept': 'application/json',
                 'X-CSRFToken': csrftoken,
             },
-        }).then(res=>res.json()).then(data=>{
+        }).then(res => res.json()).then(data => {
             runInAction(() => {
                 this.getArticles();
             });

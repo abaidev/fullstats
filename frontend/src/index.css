@@ -5,5 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #dbe5ef;
+  /* background-color: #dbe5ef; */
+  background-color: #f8f9fa!important;
+  /* background-color: transparent !important; */
+  /* background-image: linear-gradient(to bottom, rgba(var(--bd-violet-rgb), 1), rgba(var(--bd-violet-rgb), 0.95))!important; */
+}
+.navbar-dark.ftco_navbar {
+  z-index: 99;
 }

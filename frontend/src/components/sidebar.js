@@ -35,10 +35,12 @@ const styles = {
         left: 0,
         bottom: 0,
         width: '14%',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        boxShadow: "1px 0px 2px 0px rgba(50, 50, 50, 0.07)",
     },
     sidebarContainer: {
-        padding: 5,
+        padding: 8,
+        paddingTop: 70,
     }
 }
 
