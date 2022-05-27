@@ -37,10 +37,15 @@ const LoginForm = () => {
         <>
             <Grid container spacing={2} style={{ maxWidth: 900, margin: "auto", paddingTop: 5 }}>
                 <Card size={"small"} style={{ width: "70%", maxWidth: "100%", margin: "auto", marginVertical: 10 }}>
-                    <Box sx={{padding: 2}} component="form" onSubmit={onFormSubmit} noValidate>
-                        <div style={styles.inputDiv}><Input placeholder="Username" style={styles.input} type="username" name='username'/></div>
-                        <div style={styles.inputDiv}><Input placeholder="Password" style={styles.input} type="password" name='password'/></div>
+                    <Box sx={{ padding: 2 }} component="form" onSubmit={onFormSubmit} noValidate>
+                        <div style={styles.inputDiv}><Input placeholder="Username" style={styles.input} type="username" name='username' /></div>
+                        <div style={styles.inputDiv}><Input placeholder="Password" style={styles.input} type="password" name='password' /></div>
                         <Button size="small" variant='outlined' type="submit">Login</Button>
+                        <Button size="small" variant='outlined' type="button" className='ms-3 d-inline-block bg-secondary'>
+                            <Link to='/signup' className='text-light text-decoration-none bg-secondary'>
+                                Signup
+                            </Link>
+                        </Button>
                     </Box>
                 </Card>
             </Grid>
