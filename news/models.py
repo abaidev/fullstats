@@ -19,7 +19,12 @@ class Article(models.Model):
     # favorites_m2m = models.ManyToManyField(User, related_name='favorites', blank=True, default=None)
 
     def save(self,  *args, **kwargs):
-        self.slug = slugify(self.title)
+        slug_title = self.slug or slugify(self.title)
+        qs = Article.objects.filter(slug=slug_title)
+        if qs.exists() and self not in qs:
+            last = Article.objects.last()   # just for not wasting time
+            slug_title = slug_title + f'-{last.id * 2}'
+        self.slug = slug_title
         super(Article, self).save(*args, **kwargs)
 
     def __str__(self):

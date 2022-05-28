@@ -130,6 +130,20 @@ class Store {
     }
 
 
+    async createArticle(article) {
+        return await fetch(`${API}/news/articles/`, {
+            method: 'POST',
+            body: JSON.stringify(article),
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+                'Authorization': 'JWT ' + this.user.token,
+            },
+        });
+    }
+
+    
     uprateArticle(articleSlug) {
         fetch(`${API}/news/articles/${articleSlug}/uprate/`, {
             method: 'POST',

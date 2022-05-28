@@ -84,7 +84,7 @@ const ArticleCard = observer(({ article }) => {
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        {article.author[0].toUpperCase()}
+                        {article.author_name[0].toUpperCase()}
                     </Avatar>
                 }
                 action={
