@@ -13,6 +13,7 @@ import AccountActivated from './components/accountActivated';
 import LoginForm from './components/login';
 import ArticleDetails from './components/articleDetails';
 import ArticleCreateForm from './components/articleCreation';
+import FavoritesList from './components/favoritesList';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import NotFound from './components/404';
@@ -64,6 +65,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/articles/create" element={<ArticleCreateForm />} />
           <Route path="/articles/:slug" element={<ArticleDetails />} />
+          <Route path="/user/favorites" element={<FavoritesList />} />
           <Route path="*" element={<NotFound />} />
 
         </Routes>

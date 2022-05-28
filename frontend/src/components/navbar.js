@@ -18,6 +18,12 @@ const Navbar = observer(() => {
                             store.user.token
                                 ? <>
                                     <li className="nav-item">
+                                        <NavLink to="/user/favorites"
+                                            className={({isActive}) => "nav-link" + (!isActive ? " " : " active")} >
+                                            Избранное
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
                                         <NavLink to="/articles/create"
                                             className={({isActive}) => "nav-link" + (!isActive ? " " : " active")} >
                                             Создать

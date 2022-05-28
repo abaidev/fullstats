@@ -200,6 +200,9 @@ class Store {
 
     sortArticleBy(attr) {
         this.articles.sort((a, b) => a[attr] - b[attr]);
+        if (this.user.favorites.length > 0) {
+            this.user.favorites.sort((a, b) => a[attr] - b[attr]);  
+        }
     }
 
     async hasUserRate(articleSlug) {
