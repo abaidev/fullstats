@@ -93,7 +93,7 @@ const ArticleCard = observer(({ article }) => {
                     </IconButton>
                 }
                 title={<strong>{article.title}</strong>}
-                subheader={new Date(article.date).toDateString()}
+                subheader={<>{new Date(article.date).toDateString()}, by {article.author_name}</>}
             />
             {/* <CardMedia
                 component="img"

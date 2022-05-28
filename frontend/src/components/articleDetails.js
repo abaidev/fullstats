@@ -88,8 +88,9 @@ const ArticleDetails = observer(() => {
                     subheader={new Date(article.date).toDateString()}
                 />
                 <CardContent>
+                    <div className='mb-3'><b>Author</b>: {article.author_name}</div>
                     <div variant="body2" color="text.secondary">
-                        <div dangerouslySetInnerHTML={{ __html: article.content }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: article.content }} className="mb-3"></div>
                         <Link to={`/`} style={{ textDecoration: 'none' }}>
                             <Button variant="outlined" size="small">Go Home</Button>
                         </Link>
