@@ -22,10 +22,10 @@ Before you start, you need to do the followings:
     ALLOWED_HOSTS
     CORS_ORIGINS
     TIME_ZONE
-    DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-    CELERY_BROKER_URL=redis://redis:6379
-    CELERY_RESULT_BACKEND=db+postgresql://postgres:postgres@db:5432/postgres
-    EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+    DATABASE_URL
+    CELERY_BROKER_URL
+    CELERY_RESULT_BACKEND
+    EMAIL_BACKEND
     EMAIL_HOST
     EMAIL_PORT
     EMAIL_USE_TLS
