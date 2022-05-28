@@ -24,7 +24,7 @@ def signup_view(request):
     if serialized.is_valid(raise_exception=True):
         user = serialized.save()
         domain = str(get_current_site(request).domain)
-        celery_send_conf_mail.delay("Fullstats регистрация", user.id, domain)
+        celery_send_conf_mail.delay("Fullstats registration", user.id, domain)
         return Response({"success": "confirmation email is sent"})
     else:
         return Response({"failure": serialized.error_messages})
