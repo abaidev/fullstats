@@ -22,19 +22,19 @@ const Navbar = observer(() => {
                                     <li className="nav-item">
                                         <NavLink to="/user/favorites"
                                             className={({ isActive }) => "nav-link" + (!isActive ? " " : " active")} >
-                                            Избранное
+                                            Favorites
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">
                                         <NavLink to="/articles/create"
                                             className={({ isActive }) => "nav-link" + (!isActive ? " " : " active")} >
-                                            Создать
+                                            Create
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">
                                         <NavLink to="/login" onClick={() => store.logout()}
                                             className={({ isActive }) => "nav-link" + (!isActive ? " " : " active")} >
-                                            Выйти
+                                            Sign out
                                         </NavLink>
                                     </li>
                                 </ul>
@@ -49,7 +49,7 @@ const Navbar = observer(() => {
                                 <li className="nav-item">
                                     <NavLink to="/login"
                                         className={({ isActive }) => "nav-link" + (!isActive ? " " : " active")} >
-                                        Войти
+                                        Sign in
                                     </NavLink>
                                 </li>
                             </ul>
